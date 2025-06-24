@@ -1,0 +1,18 @@
+{% extends "booking/base.html" %}
+{# On retire la ligne `load crispy_forms_tags` si on ne l'utilise pas #}
+
+{% block title %}{{ page_title|default:"Faire une reservation" }}{% endblock %}
+
+{% block content %}
+<h2>{{ page_title|default:"Faire une reservation" }}</h2>
+{% if room_being_booked %}
+    <p class="lead">Reservation pour la salle : <strong>{{ room_being_booked.name }}</strong></p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  {# C'est la methode Django standard pour afficher le formulaire #}
+    <button type="submit" class="btn btn-primary">Soumettre la reservation</button>
+</form>
+<hr>
+<a href="{{ request.META.HTTP_REFERER|default:'room_list' }}" class="btn btn-secondary mt-3">Annuler</a>
+{% endblock %}

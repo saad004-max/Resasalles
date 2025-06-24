@@ -1,0 +1,25 @@
+{% extends "booking/base.html" %}
+
+{% block title %}{{ page_title|default:"S'inscrire" }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>{{ page_title|default:"S'inscrire" }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">S'inscrire</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                Dejà un compte ? <a href="{% url 'login' %}">Se connecter ici</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
