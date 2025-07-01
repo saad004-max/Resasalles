@@ -12,8 +12,7 @@ class Room(models.Model):
     # Utilisez ImageField pour le stockage local
     photo = models.ImageField(upload_to='room_photos/', blank=True, null=True)
     # 'upload_to' specifie le sous-dossier dans MEDIA_ROOT où les photos des salles seront sauvegardees.
-<<<<<<< HEAD
-    
+>>>>>>> origin/main    
     
     def __str__(self):
         return self.name
