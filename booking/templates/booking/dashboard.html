@@ -1,0 +1,132 @@
+{% extends "booking/base.html" %}
+
+{% block title %}{{ page_title|default:"Tableau de Bord" }}{% endblock %}
+
+{% block content %}
+<style>
+    .stat-card {
+        background-color: #fff;
+        border: 1px solid #e3e6f0;
+        border-radius: .35rem;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+        text-align: center;
+    }
+    .stat-card .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #4e73df;
+    }
+    .stat-card .stat-label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #858796;
+        text-transform: uppercase;
+    }
+</style>
+
+<h1>{{ page_title }}</h1>
+<p class="lead mb-4">Aperçu rapide de l'activité de la plateforme.</p>
+
+<!-- Stat Cards Row -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_bookings }}</div>
+            <div class="stat-label">Réservations Totales</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-value">{{ confirmed_bookings }}</div>
+            <div class="stat-label">Confirmées</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-value">{{ pending_bookings }}</div>
+            <div class="stat-label">En Attente</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_users }}</div>
+            <div class="stat-label">Utilisateurs</div>
+        </div>
+    </div>
+</div>
+
+<!-- Second Row -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Informations Clés</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Salle la plus populaire :</strong> {{ most_booked_room.room__name|default:"N/A" }} ({{ most_booked_room.count|default:0 }} réservations)</p>
+                <p><strong>Équipement le plus demandé :</strong> {{ most_requested_equipment.equipments__name|default:"N/A" }} ({{ most_requested_equipment.count|default:0 }} fois)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">5 Dernières Réservations</h6>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for booking in recent_bookings %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ booking.room.name }} par {{ booking.booked_by_name }}
+                            <small class="text-muted">{{ booking.created_at|date:"d/m/Y" }}</small>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Aucune réservation.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="my-4">
+
+<h2 class="h4">Statistiques des Avis</h2>
+
+<!-- Third Row for Feedbacks -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_feedbacks }}</div>
+            <div class="stat-label">Avis Totaux</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-value">{{ average_rating_overall }} <span style="font-size: 1.5rem; color: #FFD700;">★</span></div>
+            <div class="stat-label">Note Moyenne Globale</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Derniers Avis</h6>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for feedback in recent_feedbacks %}
+                        <li class="list-group-item">
+                            <strong>{{ feedback.user.username }}</strong> sur <em>{{ feedback.booking.room.name }}</em>
+                            <span class="float-right">{% for i in "12345" %}{% if forloop.counter <= feedback.rating %}<span style="color: #FFD700;">★</span>{% else %}<span style="color: #ccc;">☆</span>{% endif %}{% endfor %}</span>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Aucun avis pour le moment.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

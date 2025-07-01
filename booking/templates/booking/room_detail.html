@@ -1,0 +1,78 @@
+{% extends "booking/base.html" %}
+
+{% block title %}Details de {{ room.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h1>{{ room.name }}</h1>
+        <p><strong>Capacite :</strong> {{ room.capacity }} personnes</p>
+        {% if room.description %}
+            <p><strong>Description :</strong> {{ room.description }}</p>
+        {% endif %}
+        {% if room.photo %}
+            <img src="{{ room.photo.url }}" alt="Photo de {{ room.name }}" class="img-fluid mb-3">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <h3>Reservations Existantes (Confirmees/En Attente)</h3>
+        {% if bookings %}
+        <ul class="list-group mb-3">
+            {% for booking in bookings %}
+            <li class="list-group-item">
+                {{ booking.start_time|date:"d/m/Y H:i" }} - {{ booking.end_time|date:"d/m/Y H:i" }} ({{ booking.get_status_display }})
+                <br><small>Par: {{ booking.booked_by_name }}{% if booking.user %} ({{booking.user.username}}){% endif %}</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Aucune reservation à venir pour cette salle.</p>
+        {% endif %}
+
+        <h3>Reserver cette salle</h3>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'create_booking_for_room' room.pk %}">
+                {% csrf_token %}
+                {{ booking_form.as_p }}
+                <button type="submit" class="btn btn-success">Soumettre la demande</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}?next={{ request.path }}">Connectez-vous</a> pour reserver cette salle.</p>
+        {% endif %}
+    </div>
+</div>
+<hr class="my-4">
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Avis des utilisateurs</h3>
+        {% if average_rating %}
+            <p class="lead">Note moyenne : <strong>{{ average_rating|floatformat:1 }} / 5</strong> 
+                <span style="color: #FFD700;">★</span>
+            </p>
+        {% endif %}
+
+        {% for feedback in feedbacks %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= feedback.rating %}<span style="color: #FFD700;">★</span>{% else %}<span style="color: #ccc;">☆</span>{% endif %}
+                        {% endfor %}
+                    </h5>
+                    <p class="card-text">{{ feedback.comment|linebreaksbr|default:"Aucun commentaire." }}</p>
+                    <footer class="blockquote-footer mb-0">
+                        {{ feedback.user.username }} <cite title="Source Title">le {{ feedback.created_at|date:"d M Y" }}</cite>
+                    </footer>
+                </div>
+            </div>
+        {% empty %}
+            <p>Il n'y a pas encore d'avis pour cette salle.</p>
+        {% endfor %}
+    </div>
+</div>
+<a href="{% url 'room_list' %}" class="btn btn-secondary mt-3">Retour à la liste des salles</a>
+{% if user.is_staff %}
+    <a href="{% url 'admin:booking_room_change' room.pk %}" class="btn btn-info mt-3" target="_blank">Modifier cette salle (Admin)</a>
+{% endif %}
+{% endblock %}

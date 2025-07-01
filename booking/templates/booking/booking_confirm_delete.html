@@ -1,0 +1,12 @@
+{% extends "booking/base.html" %}
+{% block content %}
+  <h2>Supprimer la réservation</h2>
+  <p>Êtes-vous sûr de vouloir supprimer cette réservation ?</p>
+  <p><strong>Salle :</strong> {{ object.room.name }}</p>
+  <p><strong>De :</strong> {{ object.start_time }} <strong>à</strong> {{ object.end_time }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Oui, supprimer</button>
+    <a href="{% url 'my_bookings' %}">Annuler</a>
+  </form>
+{% endblock %}
