@@ -20,7 +20,11 @@
         <ul class="list-group mb-3">
             {% for booking in bookings %}
             <li class="list-group-item">
+<<<<<<< HEAD
                 {{ booking.start_time|date:"d/m/Y H:i" }} - {{ booking.end_time|date:"d/m/Y H:i" }} ({{ booking.get_status_display }})
+=======
+                {{ booking.start_time|date:"d/m/Y H:i" }} - {{ booking.end_time|date:"H:i" }} ({{ booking.get_status_display }})
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
                 <br><small>Par: {{ booking.booked_by_name }}{% if booking.user %} ({{booking.user.username}}){% endif %}</small>
             </li>
             {% endfor %}
@@ -41,6 +45,7 @@
         {% endif %}
     </div>
 </div>
+<<<<<<< HEAD
 <hr class="my-4">
 
 <div class="row">
@@ -71,6 +76,9 @@
         {% endfor %}
     </div>
 </div>
+=======
+
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 <a href="{% url 'room_list' %}" class="btn btn-secondary mt-3">Retour à la liste des salles</a>
 {% if user.is_staff %}
     <a href="{% url 'admin:booking_room_change' room.pk %}" class="btn btn-info mt-3" target="_blank">Modifier cette salle (Admin)</a>

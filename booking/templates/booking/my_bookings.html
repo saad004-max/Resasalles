@@ -1,9 +1,16 @@
 {% extends "booking/base.html" %}
 
+<<<<<<< HEAD
 {% block title %}Mes Réservations{% endblock %}
 
 {% block content %}
 <h1>Mes Réservations</h1>
+=======
+{% block title %}Mes Reservations{% endblock %}
+
+{% block content %}
+<h1>Mes Reservations</h1>
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 {% if bookings %}
 <div class="list-group">
     {% for booking in bookings %}
@@ -15,6 +22,7 @@
         <p class="mb-1">
             Du <strong>{{ booking.start_time|date:"d/m/Y H:i" }}</strong> au <strong>{{ booking.end_time|date:"d/m/Y H:i" }}</strong>
         </p>
+<<<<<<< HEAD
         <p class="mb-1">But : {{ booking.purpose|default:"Non spécifié" }}</p>
         {% if booking.equipments.all %}
         <p class="mb-1">
@@ -51,11 +59,28 @@
                 <a href="{% url 'admin:booking_booking_change' booking.pk %}" class="btn btn-sm btn-info ml-2" target="_blank">Gérer (Admin)</a>
             {% endif %}
         </div>
+=======
+        <p class="mb-1">But : {{ booking.purpose|default:"Non specifie" }}</p>
+        <p class="mb-0">Statut : <span class="badge badge-{% if booking.status == 'CONFIRMED' %}success{% elif booking.status == 'PENDING' %}warning{% elif booking.status == 'CANCELLED' %}danger{% else %}secondary{% endif %}">{{ booking.get_status_display }}</span></p>
+        {% if booking.admin_notes %}
+            <p class="mt-2 mb-0"><small class="text-muted">Note de l'admin : {{ booking.admin_notes }}</small></p>
+        {% endif %}
+        {% if user.is_staff and booking.status == 'PENDING' %}
+            <a href="{% url 'admin:booking_booking_change' booking.pk %}" class="btn btn-sm btn-info mt-2" target="_blank">Gerer (Admin)</a>
+        {% endif %}
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
     </div>
     {% endfor %}
 </div>
 {% else %}
+<<<<<<< HEAD
 <p>Vous n'avez aucune réservation pour le moment.</p>
 {% endif %}
 <a href="{% url 'create_booking' %}" class="btn btn-primary mt-3">Faire une nouvelle réservation</a>
 {% endblock %}
+=======
+<p>Vous n'avez aucune reservation pour le moment.</p>
+{% endif %}
+<a href="{% url 'create_booking' %}" class="btn btn-primary mt-3">Faire une nouvelle reservation</a>
+{% endblock %}
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f

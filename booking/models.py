@@ -12,6 +12,7 @@ class Room(models.Model):
     # Utilisez ImageField pour le stockage local
     photo = models.ImageField(upload_to='room_photos/', blank=True, null=True)
     # 'upload_to' specifie le sous-dossier dans MEDIA_ROOT où les photos des salles seront sauvegardees.
+<<<<<<< HEAD
     
     
     def __str__(self):
@@ -26,6 +27,12 @@ class Equipment(models.Model):
 
     def __str__(self):
         return self.name
+=======
+
+    def __str__(self):
+        return self.name
+
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 # ... Le reste du modele Booking reste inchange ...
 class Booking(models.Model):
     STATUS_CHOICES = [
@@ -40,7 +47,10 @@ class Booking(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     purpose = models.TextField(blank=True, null=True)
+<<<<<<< HEAD
     equipments = models.ManyToManyField(Equipment, blank=True, help_text="Équipements sélectionnés pour cette réservation")
+=======
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
     admin_notes = models.TextField(blank=True, null=True, help_text="Notes pour l'administrateur")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -73,6 +83,7 @@ class Booking(models.Model):
         return reverse('booking_detail', kwargs={'pk': self.pk})
 
     class Meta:
+<<<<<<< HEAD
         ordering = ['start_time']
 class Feedback(models.Model):
     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
@@ -90,3 +101,6 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Avis de {self.user.username} pour la réservation #{self.booking.id} ({self.rating} étoiles)"
+=======
+        ordering = ['start_time']
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f

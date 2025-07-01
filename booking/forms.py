@@ -2,7 +2,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 from .models import Booking, Room, Equipment, Feedback
+=======
+from .models import Booking, Room
+
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
@@ -12,6 +17,7 @@ class RoomForm(forms.ModelForm):
         }
 
 class BookingForm(forms.ModelForm):
+<<<<<<< HEAD
     equipments = forms.ModelMultipleChoiceField(
     queryset=Equipment.objects.all(),
     widget=forms.CheckboxSelectMultiple,
@@ -21,6 +27,11 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['room', 'booked_by_name', 'start_time', 'end_time', 'purpose', 'equipments']
+=======
+    class Meta:
+        model = Booking
+        fields = ['room', 'booked_by_name', 'start_time', 'end_time', 'purpose']
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
         widgets = {
             'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
@@ -53,6 +64,7 @@ class UserRegisterForm(UserCreationForm): # DOIT heriter de UserCreationForm
 
     # PAS de methode __init__ ici, sauf si vous avez une raison TReS specifique
     # et que vous savez ce que vous faites.
+<<<<<<< HEAD
     # Si vous avez copie le __init__ de BookingForm ici, supprimez-le.
 class FeedbackForm(forms.ModelForm):
     class Meta:
@@ -65,3 +77,6 @@ class FeedbackForm(forms.ModelForm):
             'rating': "Votre note (sur 5)",
             'comment': "Votre commentaire (optionnel)",
         }
+=======
+    # Si vous avez copie le __init__ de BookingForm ici, supprimez-le.
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f

@@ -1,12 +1,19 @@
 from django.contrib import admin
+<<<<<<< HEAD
 from .models import Room, Booking, Equipment, Feedback
+=======
+from .models import Room, Booking
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 from django.utils.html import format_html # Pour afficher l'image de maniere securisee
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('name', 'capacity', 'photo_thumbnail')
     search_fields = ('name', 'description')
+<<<<<<< HEAD
     list_filter = ('capacity',)
+=======
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 
     def photo_thumbnail(self, obj):
         if obj.photo and hasattr(obj.photo, 'url'):
@@ -14,6 +21,7 @@ class RoomAdmin(admin.ModelAdmin):
         return "Pas d'image"
     photo_thumbnail.short_description = 'Aperçu Photo'
 
+<<<<<<< HEAD
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -36,6 +44,20 @@ class BookingAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('room', 'user', 'booked_by_name', 'purpose', 'equipments')
+=======
+# ... BookingAdmin reste probablement le même ...
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('room', 'booked_by_name', 'user', 'start_time', 'end_time', 'status', 'created_at')
+    list_filter = ('status', 'room', 'start_time')
+    search_fields = ('room__name', 'user__username', 'booked_by_name', 'purpose')
+    actions = ['confirm_bookings', 'cancel_bookings']
+    readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        (None, {
+            'fields': ('room', 'user', 'booked_by_name', 'purpose')
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
         }),
         ('Dates et Heures', {
             'fields': ('start_time', 'end_time')
@@ -48,10 +70,14 @@ class BookingAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+<<<<<<< HEAD
     def display_equipments(self, obj):
         return ", ".join([eq.name for eq in obj.equipments.all()])
     display_equipments.short_description = "Équipements"
     
+=======
+
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
     def confirm_bookings(self, request, queryset):
         queryset.update(status='CONFIRMED')
     confirm_bookings.short_description = "Confirmer les reservations selectionnees"

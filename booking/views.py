@@ -1,16 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+<<<<<<< HEAD
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
+=======
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # Pour la gestion des permissions
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils import timezone
+<<<<<<< HEAD
 from .models import Room, Booking, Equipment, Feedback
 from .forms import BookingForm, RoomForm, UserRegisterForm, FeedbackForm # RoomForm ici est pour l'exemple, l'admin Django est plus puissant
 from django.views.generic.edit import DeleteView
 from django.db.models import Count, Avg
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
+=======
+from .models import Room, Booking
+from .forms import BookingForm, RoomForm, UserRegisterForm # RoomForm ici est pour l'exemple, l'admin Django est plus puissant
+
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 # Vue pour afficher la liste des salles
 class RoomListView(ListView):
     model = Room
@@ -33,12 +43,15 @@ class RoomDetailView(DetailView):
             status__in=['PENDING', 'CONFIRMED'],
             end_time__gte=timezone.now()
         ).order_by('start_time')
+<<<<<<< HEAD
         # Recuperer les avis pour cette salle
         context['feedbacks'] = Feedback.objects.filter(booking__room=room).order_by('-created_at')
         # Calculer la note moyenne
         avg_rating = context['feedbacks'].aggregate(Avg('rating'))['rating__avg']
         context['average_rating'] = round(avg_rating, 1) if avg_rating else None
 
+=======
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
         return context
 
 # Vue pour creer une reservation
@@ -88,6 +101,7 @@ class MyBookingsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Booking.objects.filter(user=self.request.user).order_by('-start_time')
+<<<<<<< HEAD
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
@@ -132,6 +146,9 @@ class DashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         return context
 
         
+=======
+
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
 
 # Vues pour l'admin (si on veut une interface en dehors de Django Admin)
 # La plupart des fonctionnalites admin (ajouter salle, modifier photo, confirmer/modifier resa)
@@ -201,6 +218,7 @@ class UserLoginView(auth_views.LoginView):
 
 class UserLogoutView(auth_views.LogoutView):
     # Pas de template necessaire si LOGOUT_REDIRECT_URL est defini
+<<<<<<< HEAD
     pass
 class BookingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Booking
@@ -262,3 +280,6 @@ class CreateFeedbackView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('my_bookings')
+=======
+    pass
+>>>>>>> e4d17d223318b24013b81ac6e05f3b9c6a0ad70f
